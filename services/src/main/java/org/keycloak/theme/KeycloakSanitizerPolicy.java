@@ -56,7 +56,7 @@ public class KeycloakSanitizerPolicy {
   private static final Pattern ONSITE_URL = Pattern.compile(
       "(?:[\\p{L}\\p{N}\\\\\\.\\#@\\$%\\+&;\\-_~,\\?=/!]+|\\#(\\w)+)");
   private static final Pattern OFFSITE_URL = Pattern.compile(
-      "\\s*(?:(?:ht|f)tps?://|mailto:)[\\p{L}\\p{N}]"
+      "\\s*(?:(?:ht|f)tps?://|mailto:|tel:)[\\p{L}\\p{N}]"
       + "[\\p{L}\\p{N}\\p{Zs}\\.\\#@\\$%\\+&;:\\-_~,\\?=/!\\(\\)]*+\\s*");
 
   private static final Pattern NUMBER = Pattern.compile(
@@ -102,6 +102,7 @@ public class KeycloakSanitizerPolicy {
           .allowAttributes("href").matching(ONSITE_OR_OFFSITE_URL)
               .onElements("a")
           .allowStandardUrlProtocols()
+          .allowUrlProtocols("tel")
           .allowAttributes("nohref").onElements("a")
           .allowAttributes("name").matching(NAME).onElements("a")
           .allowAttributes(

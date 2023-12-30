@@ -94,6 +94,13 @@ public class KeycloakSanitizerTest {
 
         html.set(0, "<p><a href='https://localhost?key=123&msg=abc'>link1</a><a href=\"https://localhost?key=abc&msg=123\">link2</a></p>");
         assertResult("<p><a href=\"https://localhost?key=123&msg=abc\" rel=\"nofollow\">link1</a><a href=\"https://localhost?key=abc&msg=123\" rel=\"nofollow\">link2</a></p>", html);
+
+
+        html.set(0, "<p><a href='mailto:test_email@test.com'>test_email@test.com</a></p>");
+        assertResult("<p><a href=\"mailto:test_email&#64;test.com\" rel=\"nofollow\">test_email&#64;test.com</a></p>", html);
+
+        html.set(0, "<p><a href='tel:123456'>123456</a></p>");
+        assertResult("<p><a href=\"tel:123456\" rel=\"nofollow\">123456</a></p>", html);
     }
 
     private void assertResult(String expectedResult, List<String> html) throws Exception {
